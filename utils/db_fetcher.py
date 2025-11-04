@@ -6,18 +6,18 @@ from fastapi import HTTPException
 
 logger = logging.getLogger(__name__)
 
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "Linod+/+Mooxy/2021",
-    "database": "chatbot_db"
-}
 # DB_CONFIG = {
 #     "host": "localhost",
 #     "user": "root",
-#     "password": "1234",
+#     "password": "Linod+/+Mooxy/2021",
 #     "database": "chatbot_db"
 # }
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "1234",
+    "database": "chatbot_db"
+}
 
 def get_raw_text_from_db(domain: str) -> str:
     """

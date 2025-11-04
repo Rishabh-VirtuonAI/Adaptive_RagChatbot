@@ -14,12 +14,14 @@ embedding = HuggingFaceEmbeddings(
     encode_kwargs={'normalize_embeddings': True}
 )
 
-vectorstore = FAISS.load_local("domains/audio/faiss_index", 
+vectorstore = FAISS.load_local("domains/backlight/faiss_index", 
             embeddings=embedding,
              allow_dangerous_deserialization=True)
 retriever = vectorstore.as_retriever(search_type="similarity",search_kwargs={"k": 6})
 
-llm = Ollama(model="llama3.1:8b-instruct-q4_K_M",
+# gemma3:12b-it-q4_K_M
+# llama3.1:8b-instruct-q4_K_M
+llm = Ollama(model="gemma3:12b-it-q4_K_M",
               temperature=1,
                 top_p=0.7,
                 num_ctx=4096,
@@ -29,7 +31,7 @@ llm = Ollama(model="llama3.1:8b-instruct-q4_K_M",
                 repeat_penalty=1.1)
 
 # Load audio-specific prompt
-with open("domains/audio/prompt.txt", "r", encoding="utf-8") as f:
+with open("domains/backlight/prompt.txt", "r", encoding="utf-8") as f:
     prompt_template = f.read()
 
 prompt = PromptTemplate(
@@ -51,7 +53,8 @@ def chat_with_user(user_query, chat_history, username):
     docs = retriever.get_relevant_documents(user_query)
     context = "\n".join([doc.page_content for doc in docs])
     formatted_history = "\n".join(f"User: {m['user_message']}\nBot: {m['bot_response']}" for m in chat_history)
-    
+    print(f"the user name i am getting is {username}")
+    print(f"the context i am getting is ->{context}")
 
     response = chain.invoke({
         "context": context,

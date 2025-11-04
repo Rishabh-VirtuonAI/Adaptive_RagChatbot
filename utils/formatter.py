@@ -12,7 +12,7 @@ def format_text_for_knowledge_base(raw_text: str) -> str:
     """
     try:
         llm = Ollama(
-            model="llama3.1:8b-instruct-q4_K_M",
+            model="mistral:7b-instruct-q4_K_M",
             temperature=1,
             top_p=0.7,
             num_ctx=4096,
